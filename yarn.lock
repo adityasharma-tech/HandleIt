@@ -986,6 +986,11 @@
   dependencies:
     sf-symbols-typescript "^2.1.0"
 
+"@expo/vector-icons@^15.1.1":
+  version "15.1.1"
+  resolved "https://registry.yarnpkg.com/@expo/vector-icons/-/vector-icons-15.1.1.tgz#4b1d2c60493c0b0536972f0a5babd5f5c85b48f4"
+  integrity sha512-Iu2VkcoI5vygbtYngm7jb4ifxElNVXQYdDrYkT7UCEIiKLeWnQY0wf2ZhHZ+Wro6Sc5TaumpKUOqDRpLi5rkvw==
+
 "@expo/ws-tunnel@^2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@expo/ws-tunnel/-/ws-tunnel-2.0.1.tgz#d5eb8ecd186c89a13714e048e3f9bd2c0ae7538b"
@@ -3451,6 +3456,11 @@ react-native-safe-area-context@~5.10.1:
   dependencies:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
+
+react-native-sim-cards-manager@^1.0.28:
+  version "1.0.28"
+  resolved "https://registry.yarnpkg.com/react-native-sim-cards-manager/-/react-native-sim-cards-manager-1.0.28.tgz#4592e8ea6b1c7f4b7ebf74198125be1d56c90769"
+  integrity sha512-U78pZiqmKgvfFlXoG+CMDV8EPcR0MMBpebt0Zfkaqyf6qkZkrVsQoaBLoEbzY170FmBl5hxEUJjqV24wYr/o5A==
 
 react-native-web@~0.21.4:
   version "0.21.4"
