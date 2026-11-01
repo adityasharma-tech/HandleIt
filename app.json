@@ -8,7 +8,8 @@
     "scheme": "handleit",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/expo.icon",
+      "bundleIdentifier": "in.mraditya.handleit"
     },
     "android": {
       "adaptiveIcon": {
@@ -18,7 +19,10 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "permissions": ["android.permission.READ_PHONE_STATE"]
+      "permissions": [
+        "android.permission.READ_PHONE_STATE"
+      ],
+      "package": "in.mraditya.handleit"
     },
     "web": {
       "output": "server",
@@ -33,7 +37,9 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }
-      ]
+      ],
+      "expo-secure-store",
+      "./plugins/withDialer"
     ],
     "experiments": {
       "typedRoutes": true,

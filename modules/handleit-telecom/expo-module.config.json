@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android", "web"],
+  "apple": {
+    "modules": ["HandleItTelecomModule"]
+  },
+  "android": {
+    "modules": ["expo.modules.handleittelecom.HandleItTelecomModule"]
+  }
+}

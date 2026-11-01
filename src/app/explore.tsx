@@ -1,30 +1,104 @@
-import { useState } from 'react';
-import { Pressable, ActivityIndicator } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Pressable, ActivityIndicator, ToastAndroid } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
 import { ThemedView } from '@/components/themed-view';
 import { ThemedText } from '@/components/themed-text';
+import { PermissionsAndroid } from 'react-native';
+import { Telecom, Sim } from '../../modules/handleit-telecom';
 
-const sims = [
-  { id: 'sim1', slot: 1, carrier: 'JIO', number: '+91 98•••• 43210' },
-  { id: 'sim2', slot: 2, carrier: 'Airtel', number: '+91 88•••• 55667' },
-];
+const toast = (msg: string) => ToastAndroid.show(msg, ToastAndroid.LONG);
+
+
+const ussdReason = (e: any) => {
+  const msg = String(e?.message ?? e);
+  if (msg.includes('-2')) return 'USSD service unavailable on this SIM';
+  if (msg.includes('-1')) return 'Carrier rejected the code';
+  return msg;
+};
 
 export default function CallHandlingScreen() {
-  const [selected, setSelected] = useState('sim1');
   const [enabled, setEnabled] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const toggle = () => {
-    if (loading) return;
-    setLoading(true);
-    setTimeout(() => {
-      setEnabled((e) => !e);
-      setLoading(false);
-    }, 900);
+  const TWILIO_NUMBER = '9389227172';
+
+  const codesFor = (carrier: string) => {
+    const c = carrier.toLowerCase();
+    if (c.includes('jio')) {
+      return { enable: `*401*${TWILIO_NUMBER}`, disable: '*406#' };
+    }
+    return { enable: `**67*+91${TWILIO_NUMBER}`, disable: '##67#' };
   };
 
-  const active = sims.find((s) => s.id === selected);
+  const waitForDefaultDialer = async () => {
+    for (let i = 0; i < 40; i++) {
+      if (Telecom.isDefaultDialer()) return true;
+      await new Promise((r) => setTimeout(r, 500));
+    }
+    return false;
+  };
+
+  const [sims, setSims] = useState<Sim[]>([]);
+  const [selected, setSelected] = useState<number | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      const r = await PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE,
+        PermissionsAndroid.PERMISSIONS.READ_PHONE_NUMBERS,
+        PermissionsAndroid.PERMISSIONS.CALL_PHONE,
+        PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+        PermissionsAndroid.PERMISSIONS.ANSWER_PHONE_CALLS,
+      ]);
+      if (Object.values(r).every((v) => v === 'granted')) {
+        const list = Telecom.getSims();
+        setSims(list);
+        if (list[0]) setSelected(list[0].subscriptionId);
+      }
+    })();
+  }, []);
+
+  const active = sims.find((s) => s.subscriptionId === selected);
+  const toggle = async () => {
+    if (loading) return;
+    if (!active) {
+      toast('No SIM selected or SIM permissions not granted');
+      return;
+    }
+    setLoading(true);
+    let step = 'start';
+    try {
+      const codes = codesFor(active.carrier);
+      if (!enabled) {
+        step = 'role';
+        if (!Telecom.isDefaultDialer()) {
+          toast('Choose HandleIt as your default phone app');
+          Telecom.requestDialerRole();
+          if (!(await waitForDefaultDialer())) {
+            toast('Default phone app not set. Enable it and try again');
+            return;
+          }
+        }
+        step = 'forwarding';
+        Telecom.placeCall(codes.enable, active.subscriptionId);
+        Telecom.setHandlingEnabled(true);
+        setEnabled(true);
+        toast(`Sent ${codes.enable}. Check the carrier message`);
+      } else {
+        step = 'forwarding';
+        Telecom.placeCall(codes.disable, active.subscriptionId);
+        Telecom.setHandlingEnabled(false);
+        setEnabled(false);
+        toast(`Sent ${codes.disable}. Check the carrier message`);
+      }
+    } catch (e: any) {
+      toast(`Failed at ${step}: ${e?.message ?? e}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   return (
     <ThemedView style={{ flex: 1 }}>
@@ -79,12 +153,12 @@ export default function CallHandlingScreen() {
             flexDirection: 'row', gap: 12,
           }}>
             {sims.map((sim) => {
-              const isSelected = selected === sim.id;
+              const isSelected = selected === sim.subscriptionId;
               return (
                 <Pressable
-                  key={sim.id}
+                  key={sim.subscriptionId}
                   disabled={enabled || loading}
-                  onPress={() => setSelected(sim.id)}
+                  onPress={() => setSelected(sim.subscriptionId)}
                   style={{
                     flex: 1,
                     height: 104,

@@ -1,0 +1,66 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="expo.modules.handleittelecom" >
+4
+5    <uses-sdk android:minSdkVersion="24" />
+5-->INJECTED
+5-->INJECTED
+6
+7    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+7-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:2:3-73
+7-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:2:20-70
+8    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+8-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:3:3-75
+8-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:3:20-72
+9    <uses-permission android:name="android.permission.CALL_PHONE" />
+9-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:4:3-67
+9-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:4:20-64
+10    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />
+10-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:5:3-75
+10-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:5:20-72
+11    <uses-permission android:name="android.permission.READ_CONTACTS" />
+11-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:6:3-70
+11-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:6:20-67
+12
+13    <application>
+13-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:8:3-27:17
+14        <service
+14-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:9:5-17:15
+15            android:name="expo.modules.handleittelecom.HandleItInCallService"
+15-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:10:7-72
+16            android:exported="true"
+16-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:12:7-30
+17            android:permission="android.permission.BIND_INCALL_SERVICE" >
+17-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:11:7-66
+18            <meta-data
+18-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:13:7-91
+19                android:name="android.telecom.IN_CALL_SERVICE_UI"
+19-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:13:18-67
+20                android:value="true" />
+20-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:13:68-88
+21
+22            <intent-filter>
+22-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:14:7-16:23
+23                <action android:name="android.telecom.InCallService" />
+23-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:15:9-64
+23-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:15:17-61
+24            </intent-filter>
+25        </service>
+26        <service
+26-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:19:5-26:15
+27            android:name="expo.modules.handleittelecom.HandleItScreeningService"
+27-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:20:7-75
+28            android:exported="true"
+28-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:22:7-30
+29            android:permission="android.permission.BIND_SCREENING_SERVICE" >
+29-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:21:7-69
+30            <intent-filter>
+30-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:23:7-25:23
+31                <action android:name="android.telecom.CallScreeningService" />
+31-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:24:9-71
+31-->/home/friday/.data/HandleIt/modules/handleit-telecom/android/src/main/AndroidManifest.xml:24:17-68
+32            </intent-filter>
+33        </service>
+34    </application>
+35
+36</manifest>
